@@ -25,6 +25,12 @@ jobs:
           sudo apt update
           sudo apt install -y maven
 
+      - name: Build VeraPDF Validation
+      - run: |
+          git clone https://github.com/veraPDF/veraPDF-validation.git
+          cd veraPDF-validation
+          mvn clean install
+
       - name: Build VeraPDF CLI JAR
         run: |
           git clone https://github.com/veraPDF/veraPDF-apps.git
