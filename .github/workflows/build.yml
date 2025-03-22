@@ -1,0 +1,43 @@
+name: Build VeraPDF Native Binary
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set Up GraalVM
+        uses: graalvm/setup-graalvm@v1
+        with:
+          version: 'latest'
+          java-version: '21'
+          components: 'native-image'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install Maven
+        run: |
+          sudo apt update
+          sudo apt install -y maven
+
+      - name: Build VeraPDF CLI JAR
+        run: |
+          git clone https://github.com/veraPDF/veraPDF-apps.git
+          cd veraPDF-apps
+          mvn clean package
+          cp target/verapdf-cli-*.jar ../verapdf-cli.jar
+
+      - name: Convert JAR to Native Binary
+        run: |
+          native-image --no-fallback -jar verapdf-cli.jar verapdf-native
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: verapdf-native-linux
+          path: verapdf-native
