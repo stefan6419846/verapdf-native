@@ -37,7 +37,7 @@ jobs:
           cd veraPDF-apps
           mvn clean package
           tree
-          cp target/verapdf-cli-*.jar ../verapdf-cli.jar
+          cp installer/target/staging/bin/greenfield-apps-*.jar ../verapdf-cli.jar
 
       - name: Convert JAR to Native Binary
         run: |
