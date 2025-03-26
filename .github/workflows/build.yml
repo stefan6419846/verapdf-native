@@ -49,3 +49,15 @@ jobs:
         with:
           name: verapdf-native-linux
           path: verapdf-native
+
+      - name: Build from standalone
+        run: |
+          wget https://github.com/user-attachments/files/19467374/app.zip
+          unzip app.zip
+          native-image --no-fallback -march=compatibility -jar verapdf-cli.jar verapdf-cli-native
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: verapdf-cli-native-linux
+          path: verapdf-cli-native
