@@ -54,7 +54,7 @@ jobs:
         run: |
           wget https://github.com/user-attachments/files/19467374/app.zip
           unzip app.zip
-          native-image --no-fallback -march=compatibility -jar verapdf-cli.jar verapdf-cli-native
+          native-image --no-fallback -march=compatibility -jar app.jar verapdf-cli-native
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
