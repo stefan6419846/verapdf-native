@@ -41,7 +41,7 @@ jobs:
 
       - name: Convert JAR to Native Binary
         run: |
-          native-image --no-fallback -march=compatibility -jar verapdf-cli.jar verapdf-native
+          native-image --no-fallback -march=compatibility -H:IncludeResources=".*\\.properties$" -jar verapdf-cli.jar verapdf-native
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
