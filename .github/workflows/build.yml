@@ -56,7 +56,7 @@ jobs:
             -march=compatibility \
             -H:IncludeResources=".*\\.properties$" \
             -H:ConfigurationFileDirectories=veraPDF-apps/native-config \
-            --initialize-at-build-time=javax.xml.bind,com.sun.xml.bind,org.verapdf \
+            --initialize-at-build-time=javax.xml.bind,com.sun.xml.bind \
             -jar verapdf-cli.jar \
             verapdf-native
 
