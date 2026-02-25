@@ -41,7 +41,7 @@ jobs:
       - name: Build VeraPDF CLI JAR
         run: |
           cd veraPDF-apps
-          mvn clean cli -DskipTests
+          mvn clean package -DskipTests
           tree
           cp cli/target/cli-*.jar ../verapdf-cli.jar
 
