@@ -45,6 +45,10 @@ jobs:
           tree
           cp cli/target/cli-*.jar ../verapdf-cli.jar
 
+      - name: Collect Native Image Config via CLI run
+        run: |
+          java -agentlib:native-image-agent=config-merge-dir=veraPDF-apps/native-config -jar verapdf-cli.jar --version
+
       - name: Convert JAR to Native Binary
         run: |
           native-image \
@@ -52,6 +56,7 @@ jobs:
             -march=compatibility \
             -H:IncludeResources=".*\\.properties$" \
             -H:ConfigurationFileDirectories=veraPDF-apps/native-config \
+            --initialize-at-build-time=javax.xml.bind,com.sun.xml.bind,org.verapdf \
             -jar verapdf-cli.jar \
             verapdf-native
 
