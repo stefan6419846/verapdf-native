@@ -32,16 +32,28 @@ jobs:
           repository: 'veraPDF/veraPDF-apps'
           path: 'veraPDF-apps'
 
+      - name: Run tests
+        run: |
+          cd veraPDF-apps
+          mkdir -p native-config
+          mvn -DargLine="-agentlib:native-image-agent=config-output-dir=$(pwd)/native-config" test
+
       - name: Build VeraPDF CLI JAR
         run: |
           cd veraPDF-apps
-          mvn clean package
+          mvn clean cli -DskipTests
           tree
           cp cli/target/cli-*.jar ../verapdf-cli.jar
 
       - name: Convert JAR to Native Binary
         run: |
-          native-image --no-fallback -march=compatibility -H:IncludeResources=".*\\.properties$" -jar verapdf-cli.jar verapdf-native
+          native-image \
+            --no-fallback \
+            -march=compatibility \
+            -H:IncludeResources=".*\\.properties$" \
+            -H:ConfigurationFileDirectories=veraPDF-apps/native-config \
+            -jar verapdf-cli.jar \
+            verapdf-native
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
